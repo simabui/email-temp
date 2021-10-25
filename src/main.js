@@ -1,5 +1,8 @@
-import { createApp } from 'vue'
-import App from './App.vue'
-import "tailwindcss/dist/tailwind.css"
+import { createApp } from "vue";
+import App from "./App.vue";
+import store from "./store";
+import "tailwindcss/dist/tailwind.css";
 
-createApp(App).mount('#app')
+const app = createApp(App);
+app.mount("#app");
+app.use(store);
