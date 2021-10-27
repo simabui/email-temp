@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto grid grid-cols-6 px-4">
+  <div class="container mx-auto grid grid-cols-6 px-4 gap-x-5">
     <form-add-user />
     <email-template />
   </div>

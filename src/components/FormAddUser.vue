@@ -11,31 +11,28 @@
 </template>
 <script>
 import CustomInput from "./CustomInput";
-import { mapGetters } from "vuex";
-import usersData from "../data/users";
+import { mapGetters, mapState, mapMutations } from "vuex";
 export default {
   components: {
     CustomInput,
   },
   name: "FormAddUser",
   computed: {
+    ...mapState(["user", "users"]),
     ...mapGetters(["getRandomUser"]),
   },
-  data() {
-    return {
-      user: {
-        first_name: "some name",
-        email: "some_email@email.com",
-        phone_number: "(000)-000-000",
-        website: "www.somewebsite.com",
-      },
-    };
+  created() {
+    this.generateRandomUser();
   },
   methods: {
+    ...mapMutations(["setRandomUser"]),
     handleRandomUser() {
-      const index = Math.floor(Math.random() * usersData.length);
-      this.getRandomUser(index);
-      this.user = this.getRandomUser(index);
+      this.generateRandomUser();
+    },
+    generateRandomUser() {
+      const index = Math.floor(Math.random() * this.users.length);
+      const newUser = this.getRandomUser(index);
+      this.setRandomUser({ user: newUser });
     },
   },
 };
