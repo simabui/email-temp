@@ -1,19 +1,25 @@
 <template>
-  <div class="col-span-4">
-    <div class="text-left">
-      <span>Insert token:</span>
-      <button class="bg-green-600 text-gray-100 p-1" @click="handleClick('first_name')">name</button>
-      <button class="bg-green-600 text-gray-100 p-1" @click="handleClick('email')">email</button>
-      <button class="bg-green-600 text-gray-100 p-1" @click="handleClick('phone_number')">phone</button>
-      <button class="bg-green-600 text-gray-100 p-1" @click="handleClick('website')">website</button>
+  <div class="lg:col-span-4 md:col-span-3 col-span-6">
+    <div class="lg:text-left sm:text-center lg:mt-0 mt-2">
+      <span class="md:text-base text-xs">Insert token:</span>
+      <button class="bg-green-600 text-gray-100 p-1 ml-3 md:text-base text-xs" @click="handleClick('first_name')">name</button>
+      <button class="bg-green-600 text-gray-100 p-1 ml-3 md:text-base text-xs" @click="handleClick('email')">email</button>
+      <button class="bg-green-600 text-gray-100 p-1 ml-3 md:text-base text-xs" @click="handleClick('phone_number')">phone</button>
+      <button class="bg-green-600 text-gray-100 p-1 ml-3 md:text-base text-xs" @click="handleClick('website')">website</button>
     </div>
     <div
-      class="border-2 border-black rounded-sm h-full w-full p-3 mt-2.5 text-left content"
+      class="border-2 border-black rounded-sm h-full w-full p-3 mt-2.5 text-left content md:text-base text-xs"
       contenteditable="true"
       v-html="html"
       ref="input"
       @input="handleInput($event)"
     ></div>
+    <div class="text-left mt-2">
+      <button class="bg-blue-600 text-gray-100 lg:p-2 p-1 md:text-base text-xs" @click="saveToLocalStorage">Save to local storage</button>
+      <button class="bg-blue-600 text-gray-100 lg:p-2 p-1 ml-3 md:text-base text-xs" @click="loadFromLocalStorage">
+        Insert from local storage
+      </button>
+    </div>
     <show-input :text="textToDisplay" />
   </div>
 </template>
@@ -32,16 +38,29 @@ export default {
       textToDisplay: "",
     };
   },
+  watch: {
+    html(value) {
+      this.textToDisplay = value;
+    },
+  },
   methods: {
     handleClick(key) {
       const token = this.getUserAttribute(key);
       const contentOfInput = this.$refs.input.innerHTML;
       const tokenTemplate = `&nbsp<span class="inline-block border-2 border-dashed border-green-700 p-1 mb-3" contenteditable="false">${token}</span>&nbsp`;
       this.html = contentOfInput + tokenTemplate;
-      this.textToDisplay = this.html;
     },
     handleInput() {
       this.textToDisplay = this.$refs.input.innerHTML;
+    },
+    saveToLocalStorage() {
+      localStorage.setItem("emailTemplate", this.textToDisplay);
+    },
+    loadFromLocalStorage() {
+      const savedTemplate = localStorage.getItem("emailTemplate");
+      if (savedTemplate) {
+        this.html = savedTemplate;
+      }
     },
   },
   computed: {
@@ -51,8 +70,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 button {
-  margin-left: 10px;
-
   &:active {
     transform: scale(0.9);
   }

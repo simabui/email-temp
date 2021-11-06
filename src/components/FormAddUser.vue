@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="lg:col-span-1 md:col-span-3 col-span-6">
     <form class="form text-left bg-gray-300 p-3" @submit.prevent="handleRandomUser">
       <button class="form__button border-2 rounded-sm border-black block m-auto">Load random user</button>
       <custom-input type="text" placeholder="some name" id="name" label="Name of user" :value="user.first_name" />
